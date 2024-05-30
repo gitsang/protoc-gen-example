@@ -1,12 +1,12 @@
 #!/bin/bash
 
 pushd ..
-    bash ./build.sh
+    bash ./build/build.sh
 popd
 
 protoc \
     -I . \
-    -I ../.. \
-    --plugin=protoc-gen-example=../protoc-gen-example \
+    -I ../proto \
+    --plugin=protoc-gen-example=../dist/bin/protoc-gen-example \
     --example_out=. \
     hello.proto
