@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package example.v1;
 
-import "protoc-gen-example/options/annotations.proto";
+import "protoc-gen-example/proto/options/annotations.proto";
 
 option go_package = "./pkg/api/v1;api";
 
