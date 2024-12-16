@@ -12,5 +12,5 @@ protoc \
     -I . \
     -I "${git_root}/proto" \
     --plugin=protoc-gen-example="${git_root}/dist/bin/protoc-gen-example" \
-    --example_out=./pkg/api/v1 \
+    --example_out=. \
     hello.proto

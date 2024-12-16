@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"log/slog"
+	"os"
 
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
@@ -21,6 +22,13 @@ func generateOutputFile(gen *protogen.Plugin, file *protogen.File) {
 }
 
 func main() {
+	slog.SetDefault(
+		slog.New(
+			slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
+				Level: slog.LevelInfo,
+			}),
+		))
+
 	protogen.Options{}.Run(func(gen *protogen.Plugin) error {
 		for _, f := range gen.Files {
 			if !f.Generate {
@@ -29,20 +37,20 @@ func main() {
 
 			// File Options
 			if fileOpts := proto.GetExtension(f.Desc.Options(), options.E_FileOptions); fileOpts != nil {
-				fmt.Printf("File %s Options: %s\n", f.Desc.Path(), fileOpts)
+				slog.Info("File", slog.Any("path", f.Desc.Path()), slog.Any("options", fileOpts))
 			}
 
 			// Messages
 			for _, msg := range f.Messages {
 				// Message Options
 				if msgOpts := proto.GetExtension(msg.Desc.Options(), options.E_MessageOptions); msgOpts != nil {
-					fmt.Printf("Message %s Options: %s\n", msg.Desc.Name(), msgOpts)
+					slog.Info("Message", slog.Any("name", msg.Desc.Name()), slog.Any("options", msgOpts))
 				}
 
 				// Fields Options
 				for _, field := range msg.Fields {
 					if fieldOpts := proto.GetExtension(field.Desc.Options(), options.E_FieldOptions); fieldOpts != nil {
-						fmt.Printf("Field %s Options: %s\n", field.Desc.Name(), fieldOpts)
+						slog.Info("Field", slog.Any("name", field.Desc.Name()), slog.Any("options", fieldOpts))
 					}
 				}
 			}
@@ -51,13 +59,13 @@ func main() {
 			for _, service := range f.Services {
 				// Service Options
 				if svcOpts := proto.GetExtension(service.Desc.Options(), options.E_ServiceOptions); svcOpts != nil {
-					fmt.Printf("Service %s Options: %s\n", service.Desc.Name(), svcOpts)
+					slog.Info("Service", slog.Any("name", service.Desc.Name()), slog.Any("options", svcOpts))
 				}
 
 				// Method Options
 				for _, method := range service.Methods {
 					if methodOpts := proto.GetExtension(method.Desc.Options(), options.E_MethodOptions); methodOpts != nil {
-						fmt.Printf("Method %s Options: %s\n", method.Desc.Name(), methodOpts)
+						slog.Info("Method", slog.Any("name", method.Desc.Name()), slog.Any("options", methodOpts))
 					}
 				}
 			}
