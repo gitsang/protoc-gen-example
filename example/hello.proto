@@ -6,19 +6,20 @@ import "protoc-gen-example/options/annotations.proto";
 
 option go_package = "./pkg/api/v1;api";
 
-message User {
-  // name of the user
-  string name = 1; // length must be 1 or greater
-  // age of the user
-  int64 age = 2; // must be greater than 0
+message HelloRequest {
+  option (protoc_gen_example.options.message_options) = "hello_request_message_options";
+  string name = 1 [(protoc_gen_example.options.field_options) = "hello_request_field_options"];
+}
+
+message HelloReply {
+  option (protoc_gen_example.options.message_options) = "hello_reply_message_options";
+  string message = 1 [(protoc_gen_example.options.field_options) = "hello_reply_field_options"];
 }
 
 service Hello {
-  option (protoc_gen_example.options.api_define) = {
-    info: {
-      app: "example",
-      version: "v0.0.1",
-      description: "example app"
-    };
+  option (protoc_gen_example.options.service_options) = "hello_service_options";
+
+  rpc Hello (HelloRequest) returns (HelloReply) {
+    option (protoc_gen_example.options.method_options) = "hello_method_options";
   };
 }
