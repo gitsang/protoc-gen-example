@@ -2,24 +2,24 @@ syntax = "proto3";
 
 package api.v1;
 
-import "protoc-gen-example/options/annotations.proto";
+import "protoc_gen_example/options/v1/annotations.proto";
 
 option go_package = "./pkg/api/v1;api";
 
 message HelloRequest {
-  option (protoc_gen_example.options.message_options) = "hello_request_message_options";
-  string name = 1 [(protoc_gen_example.options.field_options) = "hello_request_field_options"];
+  option (protoc_gen_example.options.v1.message_options) = "hello_request_message_options";
+  string name = 1 [(protoc_gen_example.options.v1.field_options) = "hello_request_field_options"];
 }
 
 message HelloReply {
-  option (protoc_gen_example.options.message_options) = "hello_reply_message_options";
-  string message = 1 [(protoc_gen_example.options.field_options) = "hello_reply_field_options"];
+  option (protoc_gen_example.options.v1.message_options) = "hello_reply_message_options";
+  string message = 1 [(protoc_gen_example.options.v1.field_options) = "hello_reply_field_options"];
 }
 
 service Hello {
-  option (protoc_gen_example.options.service_options) = "hello_service_options";
+  option (protoc_gen_example.options.v1.service_options) = "hello_service_options";
 
   rpc Hello (HelloRequest) returns (HelloReply) {
-    option (protoc_gen_example.options.method_options) = "hello_method_options";
+    option (protoc_gen_example.options.v1.method_options) = "hello_method_options";
   };
 }
